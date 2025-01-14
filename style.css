@@ -1,0 +1,17 @@
+.game-board-container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+  justify-content: center;
+}
+
+.game-board-container > div {
+  border: 1px solid black;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+  vertical-align: center;
+  line-height: 100px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 80px;
+}
