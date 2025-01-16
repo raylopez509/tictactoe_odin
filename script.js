@@ -45,7 +45,6 @@ const gameBoard = (() => {
 
   function updateBoard(square, marker) {
     gameBoard[square] = marker;
-
   }
 
   function getBoard() {
@@ -55,7 +54,7 @@ const gameBoard = (() => {
   return {
     displayBoard,
     updateBoard,
-    getBoard
+    getBoard,
   };
 })();
 
@@ -64,12 +63,10 @@ const gameController = (() => {
     {
       name: 'playerOneName',
       marker: 'X',
-      choices: [],
     },
     {
       name: 'playerTwoName',
       marker: 'O',
-      choices: [],
     },
   ];
 
@@ -92,34 +89,30 @@ const gameController = (() => {
   function checkIfWon() {
     board = gameBoard.getBoard();
     if (
-      board[0] === activePlayer.marker &&
-      board[1] === activePlayer.marker &&
-      board[2] === activePlayer.marker
-
-      // (activePlayer.choices.includes('0') &&
-      //   activePlayer.choices.includes('1') &&
-      //   activePlayer.choices.includes('2')) ||
-      // (activePlayer.choices.includes('3') &&
-      //   activePlayer.choices.includes('4') &&
-      //   activePlayer.choices.includes('5')) ||
-      // (activePlayer.choices.includes('6') &&
-      //   activePlayer.choices.includes('7') &&
-      //   activePlayer.choices.includes('8')) ||
-      // (activePlayer.choices.includes('0') &&
-      //   activePlayer.choices.includes('3') &&
-      //   activePlayer.choices.includes('6')) ||
-      // (activePlayer.choices.includes('1') &&
-      //   activePlayer.choices.includes('4') &&
-      //   activePlayer.choices.includes('7')) ||
-      // (activePlayer.choices.includes('2') &&
-      //   activePlayer.choices.includes('5') &&
-      //   activePlayer.choices.includes('8')) ||
-      // (activePlayer.choices.includes('0') &&
-      //   activePlayer.choices.includes('4') &&
-      //   activePlayer.choices.includes('8')) ||
-      // (activePlayer.choices.includes('2') &&
-      //   activePlayer.choices.includes('4') &&
-      //   activePlayer.choices.includes('6'))
+      (board[0] === activePlayer.marker &&
+        board[1] === activePlayer.marker &&
+        board[2] === activePlayer.marker) ||
+      (board[3] === activePlayer.marker &&
+        board[4] === activePlayer.marker &&
+        board[5] === activePlayer.marker) ||
+      (board[6] === activePlayer.marker &&
+        board[7] === activePlayer.marker &&
+        board[8] === activePlayer.marker) ||
+      (board[0] === activePlayer.marker &&
+        board[3] === activePlayer.marker &&
+        board[6] === activePlayer.marker) ||
+      (board[1] === activePlayer.marker &&
+        board[4] === activePlayer.marker &&
+        board[7] === activePlayer.marker) ||
+      (board[2] === activePlayer.marker &&
+        board[5] === activePlayer.marker &&
+        board[8] === activePlayer.marker) ||
+      (board[0] === activePlayer.marker &&
+        board[4] === activePlayer.marker &&
+        board[8] === activePlayer.marker) ||
+      (board[2] === activePlayer.marker &&
+        board[4] === activePlayer.marker &&
+        board[6] === activePlayer.marker)
     ) {
       return true;
     } else {
@@ -142,12 +135,12 @@ const gameController = (() => {
   return {
     playTurn,
     playGame,
-    activePlayer
+    activePlayer,
   };
 })();
 
 // const displayController = (() => {
-//   const 
+//   const
 
 //   function displayBoard() {
 //     let board = gameBoard.getBoard();
@@ -160,7 +153,6 @@ const gameController = (() => {
 //     displayBoard
 //   };
 // })();
-
 
 // displayController.displayBoard();
 
