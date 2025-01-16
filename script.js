@@ -70,8 +70,6 @@ const gameController = (() => {
     },
   ];
 
-  // const board = GameBoard();
-
   let activePlayer = players[0];
 
   const swapPlayers = () => {
@@ -79,11 +77,9 @@ const gameController = (() => {
   };
 
   const playTurn = (player) => {
-    gameBoard.displayBoard();
-    let choice = prompt('Choose a square ' + player.name);
-    console.log(choice);
-    player.choices.push(choice);
-    gameBoard.updateBoard(choice, player.marker);
+    // let choice = prompt('Choose a square ' + player.name);
+    // gameBoard.updateBoard(choice, player.marker);
+    displayController.displayBoard();
   };
 
   function checkIfWon() {
@@ -120,39 +116,53 @@ const gameController = (() => {
     }
   }
 
-  const playGame = () => {
-    let wonGame = false;
-    while (!wonGame) {
-      playTurn(activePlayer);
-      wonGame = checkIfWon();
-      if (!wonGame) {
-        swapPlayers();
-      }
-    }
-    console.log(activePlayer.name + ' has won!');
-  };
+  // const playGame = () => {
+  //   let wonGame = false;
+  //   while (!wonGame) {
+  //     playTurn(activePlayer);
+  //     wonGame = checkIfWon();
+  //     if (!wonGame) {
+  //       swapPlayers();
+  //     }
+  //   }
+  //   console.log(activePlayer.name + ' has won!');
+  // };
 
   return {
     playTurn,
-    playGame,
+    // playGame,
     activePlayer,
   };
 })();
 
-// const displayController = (() => {
-//   const
+const displayController = (() => {
+  function clickSquare(square) {
+    gameBoard.updateBoard();
+    document.querySelector('.square' + square).textContent =
+      gameController.activePlayer.marker;
+    gameController.swapPlayers;
+  }
 
-//   function displayBoard() {
-//     let board = gameBoard.getBoard();
-//     for(i = 0; i < 9; i++) {
-//       square = document.querySelector(".square" + i);
-//       square.textContent = board[i];
-//     }
-//   }
-//   return {
-//     displayBoard
-//   };
-// })();
+  // let initializeAllSquares = () => {
+  for (i = 0; i < 9; i++) {
+    document
+      .querySelector('.square' + i)
+      .addEventListener('onClick', clickSquare(i));
+  }
+  // };
+
+  function displayBoard() {
+    let board = gameBoard.getBoard();
+    for (i = 0; i < 9; i++) {
+      square = document.querySelector('.square' + i);
+      square.textContent = board[i];
+    }
+  }
+  return {
+    displayBoard,
+    // initializeAllSquares,
+  };
+})();
 
 // displayController.displayBoard();
 
@@ -163,6 +173,8 @@ const gameController = (() => {
 //   square.textContent = board[i];
 // }
 
-gameController.playGame();
+// gameController.playGame();
 
 // let display = DisplayController();
+
+displayController;
