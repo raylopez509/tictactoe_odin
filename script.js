@@ -1,5 +1,33 @@
-function GameBoard() {
+// function GameBoard() {
+//   const gameBoard = ['', '', '', '', '', '', '', '', ''];
+//   function displayBoard() {
+//     let row = '';
+//     for (i = 0; i < gameBoard.length; i++) {
+//       if (gameBoard[i] === 'X' || gameBoard[i] === 'O') {
+//         row = row + gameBoard[i];
+//       } else {
+//         row = row + i;
+//       }
+//       if (i == 2 || i == 5 || i == 8) {
+//         console.log(row);
+//         row = '';
+//       }
+//     }
+//   }
+
+//   function updateBoard(square, marker) {
+//     gameBoard[square] = marker;
+//   }
+
+//   return {
+//     displayBoard,
+//     updateBoard,
+//   };
+// }
+
+const gameBoard = (() => {
   const gameBoard = ['', '', '', '', '', '', '', '', ''];
+  // const gameBoard = ['X', 'O', 'O', 'O', 'X', 'X', 'X', 'O', 'O'];
   function displayBoard() {
     let row = '';
     for (i = 0; i < gameBoard.length; i++) {
@@ -14,16 +42,24 @@ function GameBoard() {
       }
     }
   }
+
   function updateBoard(square, marker) {
     gameBoard[square] = marker;
+
   }
+
+  function getBoard() {
+    return gameBoard;
+  }
+
   return {
     displayBoard,
     updateBoard,
+    getBoard
   };
-}
+})();
 
-function GameController() {
+const gameController = (() => {
   const players = [
     {
       name: 'playerOneName',
@@ -37,7 +73,7 @@ function GameController() {
     },
   ];
 
-  const board = GameBoard();
+  // const board = GameBoard();
 
   let activePlayer = players[0];
 
@@ -46,39 +82,44 @@ function GameController() {
   };
 
   const playTurn = (player) => {
-    board.displayBoard();
+    gameBoard.displayBoard();
     let choice = prompt('Choose a square ' + player.name);
     console.log(choice);
     player.choices.push(choice);
-    board.updateBoard(choice, player.marker);
+    gameBoard.updateBoard(choice, player.marker);
   };
 
   function checkIfWon() {
+    board = gameBoard.getBoard();
     if (
-      (activePlayer.choices.includes('0') &&
-        activePlayer.choices.includes('1') &&
-        activePlayer.choices.includes('2')) ||
-      (activePlayer.choices.includes('3') &&
-        activePlayer.choices.includes('4') &&
-        activePlayer.choices.includes('5')) ||
-      (activePlayer.choices.includes('6') &&
-        activePlayer.choices.includes('7') &&
-        activePlayer.choices.includes('8')) ||
-      (activePlayer.choices.includes('0') &&
-        activePlayer.choices.includes('3') &&
-        activePlayer.choices.includes('6')) ||
-      (activePlayer.choices.includes('1') &&
-        activePlayer.choices.includes('4') &&
-        activePlayer.choices.includes('7')) ||
-      (activePlayer.choices.includes('2') &&
-        activePlayer.choices.includes('5') &&
-        activePlayer.choices.includes('8')) ||
-      (activePlayer.choices.includes('0') &&
-        activePlayer.choices.includes('4') &&
-        activePlayer.choices.includes('8')) ||
-      (activePlayer.choices.includes('2') &&
-        activePlayer.choices.includes('4') &&
-        activePlayer.choices.includes('6'))
+      board[0] === activePlayer.marker &&
+      board[1] === activePlayer.marker &&
+      board[2] === activePlayer.marker
+
+      // (activePlayer.choices.includes('0') &&
+      //   activePlayer.choices.includes('1') &&
+      //   activePlayer.choices.includes('2')) ||
+      // (activePlayer.choices.includes('3') &&
+      //   activePlayer.choices.includes('4') &&
+      //   activePlayer.choices.includes('5')) ||
+      // (activePlayer.choices.includes('6') &&
+      //   activePlayer.choices.includes('7') &&
+      //   activePlayer.choices.includes('8')) ||
+      // (activePlayer.choices.includes('0') &&
+      //   activePlayer.choices.includes('3') &&
+      //   activePlayer.choices.includes('6')) ||
+      // (activePlayer.choices.includes('1') &&
+      //   activePlayer.choices.includes('4') &&
+      //   activePlayer.choices.includes('7')) ||
+      // (activePlayer.choices.includes('2') &&
+      //   activePlayer.choices.includes('5') &&
+      //   activePlayer.choices.includes('8')) ||
+      // (activePlayer.choices.includes('0') &&
+      //   activePlayer.choices.includes('4') &&
+      //   activePlayer.choices.includes('8')) ||
+      // (activePlayer.choices.includes('2') &&
+      //   activePlayer.choices.includes('4') &&
+      //   activePlayer.choices.includes('6'))
     ) {
       return true;
     } else {
@@ -101,9 +142,35 @@ function GameController() {
   return {
     playTurn,
     playGame,
+    activePlayer
   };
-}
+})();
 
-let game = GameController();
+// const displayController = (() => {
+//   const 
 
-// game.playGame();
+//   function displayBoard() {
+//     let board = gameBoard.getBoard();
+//     for(i = 0; i < 9; i++) {
+//       square = document.querySelector(".square" + i);
+//       square.textContent = board[i];
+//     }
+//   }
+//   return {
+//     displayBoard
+//   };
+// })();
+
+
+// displayController.displayBoard();
+
+// let board = gameBoard.getBoard();
+// for(i = 0; i < 9; i++) {
+
+//   square = document.querySelector(".square" + i);
+//   square.textContent = board[i];
+// }
+
+gameController.playGame();
+
+// let display = DisplayController();
