@@ -104,6 +104,4 @@ function GameController() {
   };
 }
 
-let game = GameController();
-
-// game.playGame();
+GameController().playGame();
