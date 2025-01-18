@@ -5,13 +5,8 @@ const gameBoard = (() => {
     gameBoard[square] = marker;
   }
 
-  function getBoard() {
-    return gameBoard;
-  }
-
   return {
     updateBoard,
-    getBoard,
   };
 })();
 
@@ -99,14 +94,14 @@ const displayController = (() => {
     document.querySelector('.square' + i).addEventListener('click', clickEvent);
   }
 
+  function markSquare(square, marker) {
+    document.querySelector('.square' + square).textContent = marker;
+  }
+
   function disableSquare(square) {
     document
       .querySelector('.square' + square)
       .removeEventListener('click', clickEvent);
-  }
-
-  function markSquare(square, marker) {
-    document.querySelector('.square' + square).textContent = marker;
   }
 
   function declareWinner(player) {
