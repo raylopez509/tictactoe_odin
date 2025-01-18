@@ -1,12 +1,16 @@
-const gameBoard = (() => {
+const GameBoard = (() => {
   const gameBoard = ['', '', '', '', '', '', '', '', ''];
 
+  function get() {
+    return gameBoard;
+  }
   function updateBoard(square, marker) {
     gameBoard[square] = marker;
   }
 
   return {
     updateBoard,
+    get,
   };
 })();
 
@@ -29,7 +33,7 @@ const gameController = (() => {
   };
 
   function checkIfWon() {
-    board = gameBoard.getBoard();
+    board = GameBoard.get();
     if (
       (board[0] === activePlayer.marker &&
         board[1] === activePlayer.marker &&
@@ -68,7 +72,7 @@ const gameController = (() => {
     turn++;
     let className = event.target.className;
     let boardArrIndex = className.charAt(className.length - 1);
-    gameBoard.updateBoard(boardArrIndex, activePlayer.marker);
+    GameBoard.updateBoard(boardArrIndex, activePlayer.marker);
     displayController.markSquare(boardArrIndex, activePlayer.marker);
     displayController.disableSquare(boardArrIndex);
     if (checkIfWon()) {
@@ -87,9 +91,6 @@ const gameController = (() => {
   };
 })();
 
-<<<<<<< HEAD
-GameController().playGame();
-=======
 const displayController = (() => {
   const clickEvent = (event) => gameController.clickSquare(event);
 
@@ -123,4 +124,3 @@ const displayController = (() => {
     declareTie,
   };
 })();
->>>>>>> iife+board
