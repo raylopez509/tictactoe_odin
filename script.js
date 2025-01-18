@@ -76,7 +76,6 @@ const gameController = (() => {
     gameBoard.updateBoard(boardArrIndex, activePlayer.marker);
     displayController.markSquare(boardArrIndex, activePlayer.marker);
     displayController.disableSquare(boardArrIndex);
-    console.log(gameBoard.getBoard());
     if (checkIfWon()) {
       for (i = 0; i < 9; i++) {
         displayController.disableSquare(i);
