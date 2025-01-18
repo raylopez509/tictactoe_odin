@@ -1,47 +1,5 @@
-// function GameBoard() {
-//   const gameBoard = ['', '', '', '', '', '', '', '', ''];
-//   function displayBoard() {
-//     let row = '';
-//     for (i = 0; i < gameBoard.length; i++) {
-//       if (gameBoard[i] === 'X' || gameBoard[i] === 'O') {
-//         row = row + gameBoard[i];
-//       } else {
-//         row = row + i;
-//       }
-//       if (i == 2 || i == 5 || i == 8) {
-//         console.log(row);
-//         row = '';
-//       }
-//     }
-//   }
-
-//   function updateBoard(square, marker) {
-//     gameBoard[square] = marker;
-//   }
-
-//   return {
-//     displayBoard,
-//     updateBoard,
-//   };
-// }
-
 const gameBoard = (() => {
   const gameBoard = ['', '', '', '', '', '', '', '', ''];
-  // const gameBoard = ['X', 'O', 'O', 'O', 'X', 'X', 'X', 'O', 'O'];
-  function displayBoard() {
-    let row = '';
-    for (i = 0; i < gameBoard.length; i++) {
-      if (gameBoard[i] === 'X' || gameBoard[i] === 'O') {
-        row = row + gameBoard[i];
-      } else {
-        row = row + i;
-      }
-      if (i == 2 || i == 5 || i == 8) {
-        console.log(row);
-        row = '';
-      }
-    }
-  }
 
   function updateBoard(square, marker) {
     gameBoard[square] = marker;
@@ -52,7 +10,6 @@ const gameBoard = (() => {
   }
 
   return {
-    displayBoard,
     updateBoard,
     getBoard,
   };
@@ -72,14 +29,12 @@ const gameController = (() => {
 
   let activePlayer = players[0];
 
-  const swapPlayers = () => {
-    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+  const getActivePlayer = () => {
+    return activePlayer;
   };
 
-  const playTurn = (player) => {
-    // let choice = prompt('Choose a square ' + player.name);
-    // gameBoard.updateBoard(choice, player.marker);
-    displayController.displayBoard();
+  const swapPlayers = () => {
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
 
   function checkIfWon() {
@@ -116,65 +71,32 @@ const gameController = (() => {
     }
   }
 
-  // const playGame = () => {
-  //   let wonGame = false;
-  //   while (!wonGame) {
-  //     playTurn(activePlayer);
-  //     wonGame = checkIfWon();
-  //     if (!wonGame) {
-  //       swapPlayers();
-  //     }
-  //   }
-  //   console.log(activePlayer.name + ' has won!');
-  // };
+  function clickSquare(event) {
+    let className = event.target.className;
+    let boardArrIndex = className.charAt(className.length - 1);
+    gameBoard.updateBoard(boardArrIndex, activePlayer.marker);
+    displayController.markSquare(boardArrIndex, activePlayer.marker);
+    console.log(gameBoard.getBoard());
+    swapPlayers();
+  }
 
   return {
-    playTurn,
-    // playGame,
-    activePlayer,
+    swapPlayers,
+    clickSquare,
   };
 })();
 
 const displayController = (() => {
-  function clickSquare(square) {
-    gameBoard.updateBoard();
-    document.querySelector('.square' + square).textContent =
-      gameController.activePlayer.marker;
-    gameController.swapPlayers;
-  }
-
-  // let initializeAllSquares = () => {
   for (i = 0; i < 9; i++) {
     document
       .querySelector('.square' + i)
-      .addEventListener('onClick', clickSquare(i));
+      .addEventListener('click', (event) => gameController.clickSquare(event));
   }
-  // };
 
-  function displayBoard() {
-    let board = gameBoard.getBoard();
-    for (i = 0; i < 9; i++) {
-      square = document.querySelector('.square' + i);
-      square.textContent = board[i];
-    }
+  function markSquare(square, marker) {
+    document.querySelector('.square' + square).textContent = marker;
   }
   return {
-    displayBoard,
-    // initializeAllSquares,
+    markSquare,
   };
 })();
-
-// displayController.displayBoard();
-
-// let board = gameBoard.getBoard();
-// for(i = 0; i < 9; i++) {
-
-//   square = document.querySelector(".square" + i);
-//   square.textContent = board[i];
-// }
-
-// gameController.playGame();
-
-// let display = DisplayController();
-
-displayController;
