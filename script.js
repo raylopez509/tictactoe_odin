@@ -1,43 +1,26 @@
-function GameBoard() {
+const gameBoard = (() => {
   const gameBoard = ['', '', '', '', '', '', '', '', ''];
-  function displayBoard() {
-    let row = '';
-    for (i = 0; i < gameBoard.length; i++) {
-      if (gameBoard[i] === 'X' || gameBoard[i] === 'O') {
-        row = row + gameBoard[i];
-      } else {
-        row = row + i;
-      }
-      if (i == 2 || i == 5 || i == 8) {
-        console.log(row);
-        row = '';
-      }
-    }
-  }
+
   function updateBoard(square, marker) {
     gameBoard[square] = marker;
   }
+
   return {
-    displayBoard,
     updateBoard,
   };
-}
+})();
 
-function GameController() {
+const gameController = (() => {
   const players = [
     {
       name: 'playerOneName',
       marker: 'X',
-      choices: [],
     },
     {
       name: 'playerTwoName',
       marker: 'O',
-      choices: [],
     },
   ];
-
-  const board = GameBoard();
 
   let activePlayer = players[0];
 
@@ -45,40 +28,33 @@ function GameController() {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
 
-  const playTurn = (player) => {
-    board.displayBoard();
-    let choice = prompt('Choose a square ' + player.name);
-    console.log(choice);
-    player.choices.push(choice);
-    board.updateBoard(choice, player.marker);
-  };
-
   function checkIfWon() {
+    board = gameBoard.getBoard();
     if (
-      (activePlayer.choices.includes('0') &&
-        activePlayer.choices.includes('1') &&
-        activePlayer.choices.includes('2')) ||
-      (activePlayer.choices.includes('3') &&
-        activePlayer.choices.includes('4') &&
-        activePlayer.choices.includes('5')) ||
-      (activePlayer.choices.includes('6') &&
-        activePlayer.choices.includes('7') &&
-        activePlayer.choices.includes('8')) ||
-      (activePlayer.choices.includes('0') &&
-        activePlayer.choices.includes('3') &&
-        activePlayer.choices.includes('6')) ||
-      (activePlayer.choices.includes('1') &&
-        activePlayer.choices.includes('4') &&
-        activePlayer.choices.includes('7')) ||
-      (activePlayer.choices.includes('2') &&
-        activePlayer.choices.includes('5') &&
-        activePlayer.choices.includes('8')) ||
-      (activePlayer.choices.includes('0') &&
-        activePlayer.choices.includes('4') &&
-        activePlayer.choices.includes('8')) ||
-      (activePlayer.choices.includes('2') &&
-        activePlayer.choices.includes('4') &&
-        activePlayer.choices.includes('6'))
+      (board[0] === activePlayer.marker &&
+        board[1] === activePlayer.marker &&
+        board[2] === activePlayer.marker) ||
+      (board[3] === activePlayer.marker &&
+        board[4] === activePlayer.marker &&
+        board[5] === activePlayer.marker) ||
+      (board[6] === activePlayer.marker &&
+        board[7] === activePlayer.marker &&
+        board[8] === activePlayer.marker) ||
+      (board[0] === activePlayer.marker &&
+        board[3] === activePlayer.marker &&
+        board[6] === activePlayer.marker) ||
+      (board[1] === activePlayer.marker &&
+        board[4] === activePlayer.marker &&
+        board[7] === activePlayer.marker) ||
+      (board[2] === activePlayer.marker &&
+        board[5] === activePlayer.marker &&
+        board[8] === activePlayer.marker) ||
+      (board[0] === activePlayer.marker &&
+        board[4] === activePlayer.marker &&
+        board[8] === activePlayer.marker) ||
+      (board[2] === activePlayer.marker &&
+        board[4] === activePlayer.marker &&
+        board[6] === activePlayer.marker)
     ) {
       return true;
     } else {
@@ -86,22 +62,65 @@ function GameController() {
     }
   }
 
-  const playGame = () => {
-    let wonGame = false;
-    while (!wonGame) {
-      playTurn(activePlayer);
-      wonGame = checkIfWon();
-      if (!wonGame) {
-        swapPlayers();
+  let turn = 0;
+
+  function clickSquare(event) {
+    turn++;
+    let className = event.target.className;
+    let boardArrIndex = className.charAt(className.length - 1);
+    gameBoard.updateBoard(boardArrIndex, activePlayer.marker);
+    displayController.markSquare(boardArrIndex, activePlayer.marker);
+    displayController.disableSquare(boardArrIndex);
+    if (checkIfWon()) {
+      for (i = 0; i < 9; i++) {
+        displayController.disableSquare(i);
+        displayController.declareWinner(activePlayer);
       }
+    } else if (turn == 9) {
+      displayController.declareTie();
     }
-    console.log(activePlayer.name + ' has won!');
-  };
+    swapPlayers();
+  }
 
   return {
-    playTurn,
-    playGame,
+    clickSquare,
   };
-}
+})();
 
+<<<<<<< HEAD
 GameController().playGame();
+=======
+const displayController = (() => {
+  const clickEvent = (event) => gameController.clickSquare(event);
+
+  for (i = 0; i < 9; i++) {
+    document.querySelector('.square' + i).addEventListener('click', clickEvent);
+  }
+
+  function markSquare(square, marker) {
+    document.querySelector('.square' + square).textContent = marker;
+  }
+
+  function disableSquare(square) {
+    document
+      .querySelector('.square' + square)
+      .removeEventListener('click', clickEvent);
+  }
+
+  function declareWinner(player) {
+    document.querySelector('.result-container').textContent =
+      player.name + ' is the winner!';
+  }
+
+  function declareTie() {
+    document.querySelector('.result-container').textContent = 'Tie Game!';
+  }
+
+  return {
+    markSquare,
+    disableSquare,
+    declareWinner,
+    declareTie,
+  };
+})();
+>>>>>>> iife+board
